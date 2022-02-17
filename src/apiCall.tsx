@@ -1,11 +1,11 @@
 import axios from "axios";
 
 //CONST 상수
-const PER_PAGE = 10; //한페이지당 데이터 갯수
+const PER_PAGE = 20000; //한페이지당 데이터 갯수
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 //인터페이스 Interface
-interface IFoodInfo {
+export interface IFoodInfo {
   [index: string]: string | number;
   "가격(원)": string;
   골목명: string;

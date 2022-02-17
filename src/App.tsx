@@ -10,10 +10,8 @@ const GlobalWrapper = styled.div`
     height : 100%;
     margin : 0 auto;
     border : 1px solid black;
-
     box-sizing : border-box;
     padding : 2rem;
-
     display : flex;
     flex-direction : column;
 `;
