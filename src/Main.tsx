@@ -50,7 +50,7 @@ const Main = () => {
   ];
 
   function classifyData(data: IFoodInfo[]): Promise<IFoodInfos> {
-    console.log("classifyData()");
+    console.log("데이터 분류...");
     return new Promise((resolve, reject) => {
       let case_1_arr: IFoodInfo[] = []; //중구
       let case_2_arr: IFoodInfo[] = []; //남구
@@ -60,7 +60,6 @@ const Main = () => {
       let case_6_arr: IFoodInfo[] = []; //달성군
       let case_7_arr: IFoodInfo[] = []; //수성구
       let case_8_arr: IFoodInfo[] = []; //북구
-      console.log("in promise 1");
       data.forEach((mdata) => {
         switch (mdata.시군구) {
           case "중구":
@@ -101,18 +100,13 @@ const Main = () => {
       };
       resolve(temp);
 
-      console.log("in promise 2");
     });
   }
 
   useEffect(() => {
-    console.log("useEffect()");
     getFoodInfoInAlley().then((res) => {
       const merged_data = [...res[0], ...res[1], ...res[2], ...res[3]];
-
       classifyData(merged_data).then((temp: IFoodInfos) => {
-        console.log("분류완료");
-        console.log("temp : ", temp);
 
         //state에 지역별 정보 할당
         setDataDaleseo(temp["달서구"]);
@@ -132,8 +126,6 @@ const Main = () => {
 
   useEffect(() => {
     getAlleyList().then((alleys: IAlleyTemp) => {
-      console.log(alleys);
-
       setAlleyList(alleys);
     });
   }, []);
