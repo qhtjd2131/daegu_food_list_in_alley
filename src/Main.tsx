@@ -1,11 +1,21 @@
 import styled from "styled-components";
 import React from "react";
-import { getFoodInfoInAlley, IFoodInfo } from "apiCall";
+import {
+  getAlleyList,
+  getFoodInfoInAlley,
+  IAlley,
+  IAlleyTemp,
+  IFoodInfo,
+  IFoodInfos,
+} from "apiCall";
 import { useEffect } from "react";
 import { useState } from "react";
+import LocationCard from "components/LocationCard";
 
 //style
 const MainWrapper = styled.section``;
+
+//interface
 
 const Main = () => {
   const [dataDaleseo, setDataDaleseo] = useState({}); //달서구 데이터
@@ -16,6 +26,17 @@ const Main = () => {
   const [dataDong, setDataDong] = useState({}); //동구 데이터
   const [dataNam, setDataNam] = useState({}); //남구 데이터
   const [dataGoon, setDataGoon] = useState({}); //달성군 데이터
+  const [alleyList, setAlleyList] = useState<IAlleyTemp>({
+    중구: [],
+    남구: [],
+    동구: [],
+    서구: [],
+    북구: [],
+    달서구: [],
+    달성군: [],
+    수성구: [],
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
   const location_name = [
     "중구",
@@ -28,11 +49,9 @@ const Main = () => {
     "달성군",
   ];
 
-  async function classifyData(data: IFoodInfo[]) {
+  function classifyData(data: IFoodInfo[]): Promise<IFoodInfos> {
     console.log("classifyData()");
-
-    //동기적으로 실행하게 변경해야함
-    const promise1 = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let case_1_arr: IFoodInfo[] = []; //중구
       let case_2_arr: IFoodInfo[] = []; //남구
       let case_3_arr: IFoodInfo[] = []; //서구
@@ -41,6 +60,7 @@ const Main = () => {
       let case_6_arr: IFoodInfo[] = []; //달성군
       let case_7_arr: IFoodInfo[] = []; //수성구
       let case_8_arr: IFoodInfo[] = []; //북구
+      console.log("in promise 1");
       data.forEach((mdata) => {
         switch (mdata.시군구) {
           case "중구":
@@ -68,21 +88,20 @@ const Main = () => {
             case_8_arr.push(mdata);
             break;
         }
-        const temp = {
-          중구: case_1_arr,
-          남구: case_2_arr,
-          서구: case_3_arr,
-          동구: case_4_arr,
-          달서구: case_5_arr,
-          달성군: case_6_arr,
-          수성구: case_7_arr,
-          북구: case_8_arr,
-        };
-        resolve(temp);
       });
-    }).then((case1) => {
-      console.log("분류 완료");
-      console.log("temp : ", case1);
+      const temp: IFoodInfos = {
+        중구: case_1_arr,
+        남구: case_2_arr,
+        서구: case_3_arr,
+        동구: case_4_arr,
+        달서구: case_5_arr,
+        달성군: case_6_arr,
+        수성구: case_7_arr,
+        북구: case_8_arr,
+      };
+      resolve(temp);
+
+      console.log("in promise 2");
     });
   }
 
@@ -90,11 +109,48 @@ const Main = () => {
     console.log("useEffect()");
     getFoodInfoInAlley().then((res) => {
       const merged_data = [...res[0], ...res[1], ...res[2], ...res[3]];
-      classifyData(merged_data);
+
+      classifyData(merged_data).then((temp: IFoodInfos) => {
+        console.log("분류완료");
+        console.log("temp : ", temp);
+
+        //state에 지역별 정보 할당
+        setDataDaleseo(temp["달서구"]);
+        setDatadataJoong(temp["중구"]);
+        setDataSuseong(temp["수성구"]);
+        setDataBook(temp["북구"]);
+        setDataSeo(temp["서구"]);
+        setDataDong(temp["동구"]);
+        setDataNam(temp["남구"]);
+        setDataGoon(temp["달성군"]);
+
+        //loading state 처리
+        setIsLoading(false);
+      });
     });
   }, []);
 
-  return <MainWrapper>main</MainWrapper>;
+  useEffect(() => {
+    getAlleyList().then((alleys: IAlleyTemp) => {
+      console.log(alleys);
+
+      setAlleyList(alleys);
+    });
+  }, []);
+
+  return (
+    <MainWrapper>
+      {isLoading
+        ? "loading ..."
+        : location_name.map((loc_name, index) => (
+            <LocationCard
+              key={index}
+              loc_name={loc_name}
+              alleyList={alleyList}
+            />
+          ))}
+    </MainWrapper>
+  );
 };
 
 export default Main;

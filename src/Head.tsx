@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import React from "react";
 import Logo from "components/Logo";
+import Description from "components/Description";
 
 //style
 
@@ -11,6 +12,7 @@ const Head = () => {
   return (
     <HeadWrapper>
       <Logo />
+      <Description />
     </HeadWrapper>
   );
 };
