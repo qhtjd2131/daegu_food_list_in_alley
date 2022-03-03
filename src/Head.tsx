@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import React from "react";
 import Logo from "components/Logo";
 import Description from "components/Description";

@@ -1,8 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
 const DescriptionWrapper = styled.div`
 
+    padding-bottom : 1rem;
 `;
 
 const Gmail = styled.div``;

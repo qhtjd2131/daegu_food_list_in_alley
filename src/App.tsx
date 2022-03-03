@@ -1,10 +1,9 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import Head from './Head';
 import Main from './Main'
 import React from 'react';
 
 //style
-
 const GlobalWrapper = styled.div`
     width : 48rem;
     height : 100%;

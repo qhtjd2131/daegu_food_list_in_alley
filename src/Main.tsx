@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import React from "react";
 import {
   getAlleyList,
@@ -18,14 +18,25 @@ const MainWrapper = styled.section``;
 //interface
 
 const Main = () => {
-  const [dataDaleseo, setDataDaleseo] = useState({}); //달서구 데이터
-  const [dataJoong, setDatadataJoong] = useState({}); //중구 데이터
-  const [dataSuseong, setDataSuseong] = useState({}); //수성구 데이터
-  const [dataBook, setDataBook] = useState({}); //북구 데이터
-  const [dataSeo, setDataSeo] = useState({}); //서구 데이터
-  const [dataDong, setDataDong] = useState({}); //동구 데이터
-  const [dataNam, setDataNam] = useState({}); //남구 데이터
-  const [dataGoon, setDataGoon] = useState({}); //달성군 데이터
+  // const [dataDaleseo, setDataDaleseo] = useState({}); //달서구 데이터
+  // const [dataJoong, setDatadataJoong] = useState({}); //중구 데이터
+  // const [dataSuseong, setDataSuseong] = useState({}); //수성구 데이터
+  // const [dataBook, setDataBook] = useState({}); //북구 데이터
+  // const [dataSeo, setDataSeo] = useState({}); //서구 데이터
+  // const [dataDong, setDataDong] = useState({}); //동구 데이터
+  // const [dataNam, setDataNam] = useState({}); //남구 데이터
+  // const [dataGoon, setDataGoon] = useState({}); //달성군 데이터
+
+  const [restaurantList, setRestaurantList] = useState<IFoodInfos>({
+    중구: [],
+    남구: [],
+    동구: [],
+    서구: [],
+    북구: [],
+    달서구: [],
+    달성군: [],
+    수성구: [],
+  });
   const [alleyList, setAlleyList] = useState<IAlleyTemp>({
     중구: [],
     남구: [],
@@ -108,16 +119,18 @@ const Main = () => {
       const merged_data = [...res[0], ...res[1], ...res[2], ...res[3]];
       classifyData(merged_data).then((temp: IFoodInfos) => {
 
+        console.log(temp);
         //state에 지역별 정보 할당
-        setDataDaleseo(temp["달서구"]);
-        setDatadataJoong(temp["중구"]);
-        setDataSuseong(temp["수성구"]);
-        setDataBook(temp["북구"]);
-        setDataSeo(temp["서구"]);
-        setDataDong(temp["동구"]);
-        setDataNam(temp["남구"]);
-        setDataGoon(temp["달성군"]);
+        // setDataDaleseo(temp["달서구"]);
+        // setDatadataJoong(temp["중구"]);
+        // setDataSuseong(temp["수성구"]);
+        // setDataBook(temp["북구"]);
+        // setDataSeo(temp["서구"]);
+        // setDataDong(temp["동구"]);
+        // setDataNam(temp["남구"]);
+        // setDataGoon(temp["달성군"]);
 
+        setRestaurantList(temp);
         //loading state 처리
         setIsLoading(false);
       });
@@ -139,6 +152,7 @@ const Main = () => {
               key={index}
               loc_name={loc_name}
               alleyList={alleyList}
+              restaurantList = {restaurantList}
             />
           ))}
     </MainWrapper>

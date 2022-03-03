@@ -1,6 +1,6 @@
-import { IAlleyTemp } from "apiCall";
+import { IAlleyTemp, IFoodInfos } from "apiCall";
 import React, { useCallback, useState } from "react";
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components/macro";
 import AlleyCard from "./AlleyCard";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
@@ -43,14 +43,15 @@ const ButtonWrapper = styled.div`
 `;
 //interface
 
-interface ILocationProps {
+interface ILocationCardProps {
+  [index : string] : any;
   loc_name: string;
   alleyList: IAlleyTemp;
+  restaurantList : IFoodInfos;
 }
 
-const LocationCard = ({ loc_name, alleyList }: ILocationProps) => {
+const LocationCard = ({ loc_name, alleyList, restaurantList }: ILocationCardProps) => {
   const [isOpenAlley, setIsOpenAlley] = useState<boolean>(false);
-
   const IconStyle: any = {
     width: "100%",
     height: "100%",
@@ -89,7 +90,7 @@ const LocationCard = ({ loc_name, alleyList }: ILocationProps) => {
         {buttonRender()}
       </LocationBox>
 
-      <AlleyCard alleyListInLocation={alleyList[loc_name]} />
+      <AlleyCard alleyListInLocation={alleyList[loc_name]} restaurantListInAlley={restaurantList[loc_name]}/>
     </LocationCardWrapper>
   );
 };
