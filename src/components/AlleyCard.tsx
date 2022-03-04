@@ -1,6 +1,8 @@
 import { IFoodInfo } from "apiCall";
 import React, { useEffect } from "react";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import styled from "styled-components/macro";
+import Logo from "./Logo";
 
 const AlleyCardWrapper = styled.div`
   border: 1px solid black;
@@ -19,28 +21,32 @@ const AlleyCard = ({
   console.log(restaurantListInAlley);
 
   const classifyDataInRes = () => {
-    // let temp : number[] = [];
-    // restaurantListInAlley.filter((value) => {
-
-    //     // if(!temp.includes(value["업소 식별번호"])){
-    //     //     temp.push(value["업소 식별번호"])
-    //     // }
-
-    //     return ;
-    // })
-
     return new Promise((resolve, reject) => {
       let temp: any = {};
       restaurantListInAlley.forEach((value) => {
-        temp[value["업소 식별번호"]] = {
-          ...temp[value["업소 식별번호"]],
-
-          [value["메뉴명"]]: {
+        const restaurantIndex = value["업소 식별번호"];
+        if (temp[restaurantIndex]) {
+          temp[restaurantIndex] = {
             restaurantName: value.업소명,
-            cost: value["가격(원)"],
-          },
-        };
+            menu: [
+              ...temp[restaurantIndex].menu,
+              {
+                [value.메뉴명]: value["가격(원)"],
+              },
+            ],
+          };
+        } else {
+          temp[restaurantIndex] = {
+            restaurantName: value.업소명,
+            menu: [
+              {
+                [value.메뉴명]: value["가격(원)"],
+              },
+            ],
+          };
+        }
       });
+
       resolve(temp);
     });
   };
@@ -54,7 +60,9 @@ const AlleyCard = ({
   return (
     <AlleyCardWrapper>
       {alleyListInLocation.map((alley: any, index: number) => (
-        <AlleyTitle key={index}>{alley}</AlleyTitle>
+        <Link to={`/restaurant/${alley}` }>
+          <AlleyTitle key={index}>{alley}</AlleyTitle>
+        </Link>
       ))}
     </AlleyCardWrapper>
   );
