@@ -90,7 +90,7 @@ const LocationCard = ({ loc_name, alleyList, restaurantList }: ILocationCardProp
         {buttonRender()}
       </LocationBox>
 
-      <AlleyCard alleyListInLocation={alleyList[loc_name]} restaurantListInAlley={restaurantList[loc_name]}/>
+      <AlleyCard alleyListInLocation={alleyList[loc_name]} restaurantListInAlley={restaurantList[loc_name]} locationName={loc_name}/>
     </LocationCardWrapper>
   );
 };

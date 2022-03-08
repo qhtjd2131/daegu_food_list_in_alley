@@ -25,7 +25,7 @@ function App() {
         <Head />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="restaurant/*" element={<RestaurantList />} />
+          <Route path="restaurant/:location/:alley" element={<RestaurantList />} />
           
         </Routes>
       </GlobalWrapper>
