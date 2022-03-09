@@ -34,6 +34,7 @@ export async function getFoodInfoInAlley() {
   const url_page3 = `https://api.odcloud.kr/api/15097294/v1/uddi:f72f944d-b440-415d-97be-94be780dbbef?page=3&perPage=${PER_PAGE}&serviceKey=${API_KEY}`;
   const url_page4 = `https://api.odcloud.kr/api/15097294/v1/uddi:f72f944d-b440-415d-97be-94be780dbbef?page=4&perPage=${PER_PAGE}&serviceKey=${API_KEY}`;
 
+  console.log(url_page1);
   return await Promise.all([
     (await axios.get(url_page1)).data.data,
     (await axios.get(url_page2)).data.data,

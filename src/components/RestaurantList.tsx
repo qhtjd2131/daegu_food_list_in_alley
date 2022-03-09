@@ -4,31 +4,56 @@ import { useLocation, useParams } from "react-router-dom";
 import { getFoodInfoInAlley, IFoodInfos } from "apiCall";
 import { classifyData } from "Main";
 import { classifyDataInRes } from "./AlleyCard";
+import RestaurantItem from "./RestaurantItem";
 
 //style
 const RestaurantListWrapper = styled.div``;
 
 const TitleBox = styled.div``;
 
-const LocationName = styled.p``;
-const AlleyName = styled.p``;
+const LocationName = styled.p`
+  font-size: 1.8rem;
+  margin: 0;
+`;
+const AlleyName = styled.p`
+  font-size: 1.5rem;
+  margin: 0;
+`;
 
 const RestaurantBox = styled.div``;
-const RestaurantName = styled.p``;
+const RestaurantName = styled.p`
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: underline;
+`;
 const MenuBox = styled.div``;
-const MenuName = styled.p``;
-const Cost = styled.p``;
+const Menu = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+
+  &:hover {
+    background-color: #ececec;
+  }
+`;
+const MenuName = styled.p`
+  margin: 0;
+`;
+const Cost = styled.p`
+  margin: 0;
+  white-space: nowrap;
+`;
 
 //inteface
 export interface IRestaurantListInAlley {
   [index: string]: IRestaurant;
 }
 
-interface IRestaurant {
+export interface IRestaurant {
   restaurantName: string;
   menu: IMenu[];
 }
-interface IMenu {
+export interface IMenu {
   menuName: string;
   cost: string;
 }
@@ -58,8 +83,8 @@ const RestaurantList = () => {
       }
     });
 
-  console.log("params", params);
-  console.log("location.state : ", location.state);
+  // console.log("params", params);
+  // console.log("location.state : ", location.state);
 
   useEffect(() => {
     if (!location.state) {
@@ -73,7 +98,6 @@ const RestaurantList = () => {
           return classifyDataInRes(res2[params.location]);
         })
         .then((res3: IRestaurantListInAlley) => {
-          console.log("res3:", res3);
           setRestaurantMenuList(res3);
           setIsLoading(false);
         });
@@ -81,6 +105,7 @@ const RestaurantList = () => {
       setIsLoading(false);
     }
   }, []);
+
   return (
     <RestaurantListWrapper>
       {isLoading ? (
@@ -92,19 +117,11 @@ const RestaurantList = () => {
             <AlleyName>{params.alley}</AlleyName>
           </TitleBox>
           {Object.keys(restaurantMenuList).map((key: string) => (
-            <RestaurantBox>
-              <RestaurantName>
-                {restaurantMenuList[key].restaurantName}
-              </RestaurantName>
-              <MenuBox>
-                {restaurantMenuList[key].menu.map((menuInfo) => (
-                  <>
-                    <MenuName>{menuInfo.menuName}</MenuName>
-                    <Cost>{menuInfo.cost}</Cost>
-                  </>
-                ))}
-              </MenuBox>
-            </RestaurantBox>
+            <RestaurantItem
+              key={key}
+              restaurantName={restaurantMenuList[key].restaurantName}
+              menu={restaurantMenuList[key].menu}
+            />
           ))}
         </>
       )}

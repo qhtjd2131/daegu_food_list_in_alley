@@ -1,4 +1,4 @@
-import { IFoodInfo, IFoodInfos } from "apiCall";
+import { IFoodInfo } from "apiCall";
 import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
@@ -8,7 +8,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 import styled from "styled-components/macro";
-import Logo from "./Logo";
 import { IRestaurantListInAlley } from "./RestaurantList";
 
 const AlleyCardWrapper = styled.div`
@@ -62,14 +61,14 @@ const AlleyCard = ({
   locationName,
 }: IAlleyCardProps) => {
   const [restaurantList, setRestaurantList] = useState<any>();
-  console.log("restaurantListInAlley", restaurantListInAlley);
-  console.log("alleyListInLocation", alleyListInLocation);
+  // console.log("restaurantListInAlley", restaurantListInAlley);
+  // console.log("alleyListInLocation", alleyListInLocation);
 
   let navigate = useNavigate();
 
   useEffect(() => {
     classifyDataInRes(restaurantListInAlley).then((data) => {
-      console.log("temp : ", data);
+      // console.log("temp : ", data);
       setRestaurantList(data);
     });
   }, []);
@@ -83,8 +82,9 @@ const AlleyCard = ({
               state: restaurantList,
             });
           }}
+          key ={index}
         >
-          <AlleyTitle key={index}>{alley}</AlleyTitle>
+          <AlleyTitle>{alley}</AlleyTitle>
         </div>
       ))}
     </AlleyCardWrapper>

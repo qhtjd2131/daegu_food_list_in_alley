@@ -5,6 +5,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Logo from "components/Logo";
 import RestaurantList from "components/RestaurantList";
+import Line from "components/Line";
 
 //style
 const GlobalWrapper = styled.div`
@@ -23,6 +24,7 @@ function App() {
     <BrowserRouter>
       <GlobalWrapper>
         <Head />
+        <Line lineNumber={1} />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="restaurant/:location/:alley" element={<RestaurantList />} />

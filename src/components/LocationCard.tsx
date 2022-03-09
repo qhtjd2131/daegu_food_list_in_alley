@@ -44,18 +44,40 @@ const ButtonWrapper = styled.div`
 //interface
 
 interface ILocationCardProps {
-  [index : string] : any;
+  [index: string]: any;
   loc_name: string;
   alleyList: IAlleyTemp;
-  restaurantList : IFoodInfos;
+  restaurantList: IFoodInfos;
 }
 
-const LocationCard = ({ loc_name, alleyList, restaurantList }: ILocationCardProps) => {
-  const [isOpenAlley, setIsOpenAlley] = useState<boolean>(false);
-  const IconStyle: any = {
+//function
+export const buttonRender = ( isOpenAlley : boolean) => {
+  const iconStyle: any = {
     width: "100%",
     height: "100%",
   };
+  if (isOpenAlley) {
+    return (
+      <ButtonWrapper>
+        <IoIosArrowUp style={iconStyle} />
+      </ButtonWrapper>
+    );
+  } else {
+    return (
+      <ButtonWrapper>
+        <IoIosArrowDown style={iconStyle} />
+      </ButtonWrapper>
+    );
+  }
+};
+
+//components
+const LocationCard = ({
+  loc_name,
+  alleyList,
+  restaurantList,
+}: ILocationCardProps) => {
+  const [isOpenAlley, setIsOpenAlley] = useState<boolean>(false);
 
   const clickHandler = useCallback(() => {
     setIsOpenAlley((isopen) => {
@@ -63,21 +85,25 @@ const LocationCard = ({ loc_name, alleyList, restaurantList }: ILocationCardProp
     });
   }, []);
 
-  const buttonRender = useCallback(() => {
-    if (isOpenAlley) {
-      return (
-        <ButtonWrapper>
-          <IoIosArrowUp style={IconStyle} />
-        </ButtonWrapper>
-      );
-    } else {
-      return (
-        <ButtonWrapper>
-          <IoIosArrowDown style={IconStyle} />
-        </ButtonWrapper>
-      );
-    }
-  }, [isOpenAlley]);
+  // const buttonRender = useCallback(() => {
+  //   const iconStyle: any = {
+  //     width: "100%",
+  //     height: "100%",
+  //   };
+  //   if (isOpenAlley) {
+  //     return (
+  //       <ButtonWrapper>
+  //         <IoIosArrowUp style={iconStyle} />
+  //       </ButtonWrapper>
+  //     );
+  //   } else {
+  //     return (
+  //       <ButtonWrapper>
+  //         <IoIosArrowDown style={iconStyle} />
+  //       </ButtonWrapper>
+  //     );
+  //   }
+  // }, [isOpenAlley]);
 
   return (
     <LocationCardWrapper maxHeight={isOpenAlley}>
@@ -87,10 +113,14 @@ const LocationCard = ({ loc_name, alleyList, restaurantList }: ILocationCardProp
         }}
       >
         <LocationTitle>{loc_name}</LocationTitle>
-        {buttonRender()}
+        {buttonRender(isOpenAlley)}
       </LocationBox>
 
-      <AlleyCard alleyListInLocation={alleyList[loc_name]} restaurantListInAlley={restaurantList[loc_name]} locationName={loc_name}/>
+      <AlleyCard
+        alleyListInLocation={alleyList[loc_name]}
+        restaurantListInAlley={restaurantList[loc_name]}
+        locationName={loc_name}
+      />
     </LocationCardWrapper>
   );
 };
