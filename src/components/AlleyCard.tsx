@@ -69,15 +69,13 @@ const AlleyCard = ({
   locationName,
 }: IAlleyCardProps) => {
   const [restaurantList, setRestaurantList] = useState<any>();
-
-
   let navigate = useNavigate();
 
   useEffect(() => {
     classifyDataInRes(restaurantListInAlley).then((data) => {
       setRestaurantList(data);
     });
-  }, []);
+  }, [restaurantListInAlley]);
 
   return (
     <AlleyCardWrapper>

@@ -3,7 +3,6 @@ import React from "react";
 import {
   getAlleyList,
   getFoodInfoInAlley,
-  IAlley,
   IAlleyTemp,
   IFoodInfo,
   IFoodInfos,

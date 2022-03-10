@@ -107,7 +107,7 @@ const RestaurantList = () => {
         setIsLoading(false);
       });
     }
-  }, []);
+  }, [location.state, params.alley]);
 
   return (
     <RestaurantListWrapper>
