@@ -1,10 +1,6 @@
 import { IFoodInfo } from "apiCall";
 import React, { useEffect, useState } from "react";
 import {
-  BrowserRouter,
-  Link,
-  Route,
-  Routes,
   useNavigate,
 } from "react-router-dom";
 import styled from "styled-components/macro";
@@ -23,25 +19,29 @@ interface IAlleyCardProps {
 }
 
 //function
-export const classifyDataInRes = (restaurantListInAlley : IFoodInfo[]): Promise<IRestaurantListInAlley> => {
+export const classifyDataInRes = (
+  restaurantListInAlley: IFoodInfo[]
+): Promise<IRestaurantListInAlley> => {
   return new Promise((resolve, reject) => {
     let temp: any = {};
+    console.log("-----", restaurantListInAlley);
+
     restaurantListInAlley.forEach((value: any) => {
       const restaurantIndex = value["업소 식별번호"];
       if (temp[restaurantIndex]) {
-        temp[restaurantIndex] = {
-          restaurantName: value.업소명,
-          menu: [
-            ...temp[restaurantIndex].menu,
-            {
-              menuName: value.메뉴명,
-              cost: value["가격(원)"],
-            },
-          ],
-        };
+        temp[restaurantIndex].menu = [
+          ...temp[restaurantIndex].menu,
+          {
+            menuName: value.메뉴명,
+            cost: value["가격(원)"],
+          },
+        ];
       } else {
         temp[restaurantIndex] = {
           restaurantName: value.업소명,
+          alleyName: value.골목명,
+          location: value.시군구,
+
           menu: [
             {
               menuName: value.메뉴명,
@@ -51,6 +51,8 @@ export const classifyDataInRes = (restaurantListInAlley : IFoodInfo[]): Promise<
         };
       }
     });
+
+    // 여기서 골목별 레스토랑 리스트롤 구별해내야함.
 
     resolve(temp);
   });
@@ -68,7 +70,7 @@ const AlleyCard = ({
 
   useEffect(() => {
     classifyDataInRes(restaurantListInAlley).then((data) => {
-      // console.log("temp : ", data);
+      console.log("temp : ", data);
       setRestaurantList(data);
     });
   }, []);
@@ -82,7 +84,7 @@ const AlleyCard = ({
               state: restaurantList,
             });
           }}
-          key ={index}
+          key={index}
         >
           <AlleyTitle>{alley}</AlleyTitle>
         </div>

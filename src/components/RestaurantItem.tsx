@@ -52,6 +52,7 @@ const Cost = styled.p`
 interface IRestaurantItemProps {
   restaurantName: string;
   menu: IMenu[];
+  alleyName : string;
 }
 
 //Component

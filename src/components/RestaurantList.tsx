@@ -49,13 +49,35 @@ export interface IRestaurantListInAlley {
   [index: string]: IRestaurant;
 }
 
+// export interface IRestaurantMenuList {
+//   [index : string]:
+// }
+
 export interface IRestaurant {
   restaurantName: string;
+  alleyName: string;
+  location: string;
   menu: IMenu[];
 }
 export interface IMenu {
   menuName: string;
   cost: string;
+}
+//fuction
+function classifyDataInAlley(
+  data: IRestaurantListInAlley,
+  alleyName: string
+): Promise<IRestaurant[]> {
+  return new Promise((resolve, reject) => {
+    const arrayData: IRestaurant[] = [];
+    Object.keys(data).forEach((restaurantIndex) => {
+      arrayData.push(data[restaurantIndex]);
+    });
+    const temp = arrayData.filter((restaurantInfo: any) => {
+      return restaurantInfo.alleyName === alleyName;
+    });
+    resolve(temp);
+  });
 }
 
 //Component
@@ -64,24 +86,24 @@ const RestaurantList = () => {
   const location: any = useLocation();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [restaurantMenuList, setRestaurantMenuList] =
-    useState<IRestaurantListInAlley>((): IRestaurantListInAlley => {
-      if (location.state) {
-        return location.state;
-      } else {
-        return {
-          "00000": {
-            restaurantName: "",
-            menu: [
-              {
-                menuName: "",
-                cost: "",
-              },
-            ],
-          },
-        };
-      }
-    });
+  const [restaurantList, setRestaurantList] = useState<
+  IRestaurant[]
+  >((): IRestaurant[] => {
+    return [
+     {
+          restaurantName: "",
+          alleyName: "",
+          location: "",
+          menu: [
+            {
+              menuName: "",
+              cost: "",
+            },
+          ],
+        },
+      
+    ];
+  });
 
   // console.log("params", params);
   // console.log("location.state : ", location.state);
@@ -98,11 +120,18 @@ const RestaurantList = () => {
           return classifyDataInRes(res2[params.location]);
         })
         .then((res3: IRestaurantListInAlley) => {
-          setRestaurantMenuList(res3);
+          return classifyDataInAlley(res3, params.alley);
+        })
+        .then((res4 : IRestaurant[]) => {
+          setRestaurantList(res4);
+          console.log("88888", res4);
           setIsLoading(false);
         });
     } else {
-      setIsLoading(false);
+      classifyDataInAlley(location.state, params.alley).then((res4) => {
+        setRestaurantList(res4);
+        setIsLoading(false);
+      });
     }
   }, []);
 
@@ -116,13 +145,16 @@ const RestaurantList = () => {
             <LocationName>{params.location}</LocationName>
             <AlleyName>{params.alley}</AlleyName>
           </TitleBox>
-          {Object.keys(restaurantMenuList).map((key: string) => (
-            <RestaurantItem
-              key={key}
-              restaurantName={restaurantMenuList[key].restaurantName}
-              menu={restaurantMenuList[key].menu}
+      
+          {restaurantList.map((restaurant, index) => {
+           
+           return <RestaurantItem
+              key={index}
+              restaurantName={restaurant.restaurantName}
+              menu={restaurant.menu}
+              alleyName={restaurant.alleyName}
             />
-          ))}
+          })}
         </>
       )}
     </RestaurantListWrapper>
