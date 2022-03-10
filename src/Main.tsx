@@ -75,14 +75,6 @@ export function classifyData(data: IFoodInfo[]): Promise<IFoodInfos> {
 
 
 const Main = () => {
-  // const [dataDaleseo, setDataDaleseo] = useState({}); //달서구 데이터
-  // const [dataJoong, setDatadataJoong] = useState({}); //중구 데이터
-  // const [dataSuseong, setDataSuseong] = useState({}); //수성구 데이터
-  // const [dataBook, setDataBook] = useState({}); //북구 데이터
-  // const [dataSeo, setDataSeo] = useState({}); //서구 데이터
-  // const [dataDong, setDataDong] = useState({}); //동구 데이터
-  // const [dataNam, setDataNam] = useState({}); //남구 데이터
-  // const [dataGoon, setDataGoon] = useState({}); //달성군 데이터
 
   const [restaurantList, setRestaurantList] = useState<IFoodInfos>({
     중구: [],
@@ -120,22 +112,18 @@ const Main = () => {
   
 
   useEffect(() => {
+    let startTime :any= new Date();
+    let endTime : any;
     getFoodInfoInAlley().then((res) => {
       const merged_data = [...res[0], ...res[1], ...res[2], ...res[3]];
       classifyData(merged_data).then((temp: IFoodInfos) => {
-        //state에 지역별 정보 할당
-        // setDataDaleseo(temp["달서구"]);
-        // setDatadataJoong(temp["중구"]);
-        // setDataSuseong(temp["수성구"]);
-        // setDataBook(temp["북구"]);
-        // setDataSeo(temp["서구"]);
-        // setDataDong(temp["동구"]);
-        // setDataNam(temp["남구"]);
-        // setDataGoon(temp["달성군"]);
+
 
         setRestaurantList(temp);
         //loading state 처리
         setIsLoading(false);
+        endTime = new Date();
+        console.log("경과시간(ms) :", endTime - startTime)  
       });
     });
   }, []);

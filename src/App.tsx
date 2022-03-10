@@ -3,7 +3,6 @@ import Head from "./Head";
 import Main from "./Main";
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Logo from "components/Logo";
 import RestaurantList from "components/RestaurantList";
 import Line from "components/Line";
 
