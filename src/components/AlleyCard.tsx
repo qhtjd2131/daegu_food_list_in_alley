@@ -8,9 +8,19 @@ import { IRestaurantListInAlley } from "./RestaurantList";
 
 const AlleyCardWrapper = styled.div`
   border: 1px solid black;
+
 `;
 
-const AlleyTitle = styled.p``;
+const AlleyTitle = styled.p`
+ width : 100%;
+ cursor : pointer;
+ margin : 0;
+ padding : 0.4rem 0;
+ padding-left  :0.4rem;
+ &:hover{
+   background-color : #ececec;
+ }
+`;
 
 interface IAlleyCardProps {
   alleyListInLocation: string[];
@@ -24,7 +34,6 @@ export const classifyDataInRes = (
 ): Promise<IRestaurantListInAlley> => {
   return new Promise((resolve, reject) => {
     let temp: any = {};
-    console.log("-----", restaurantListInAlley);
 
     restaurantListInAlley.forEach((value: any) => {
       const restaurantIndex = value["업소 식별번호"];
@@ -51,9 +60,6 @@ export const classifyDataInRes = (
         };
       }
     });
-
-    // 여기서 골목별 레스토랑 리스트롤 구별해내야함.
-
     resolve(temp);
   });
 };
@@ -63,14 +69,12 @@ const AlleyCard = ({
   locationName,
 }: IAlleyCardProps) => {
   const [restaurantList, setRestaurantList] = useState<any>();
-  // console.log("restaurantListInAlley", restaurantListInAlley);
-  // console.log("alleyListInLocation", alleyListInLocation);
+
 
   let navigate = useNavigate();
 
   useEffect(() => {
     classifyDataInRes(restaurantListInAlley).then((data) => {
-      console.log("temp : ", data);
       setRestaurantList(data);
     });
   }, []);

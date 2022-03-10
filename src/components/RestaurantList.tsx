@@ -5,6 +5,7 @@ import { getFoodInfoInAlley, IFoodInfos } from "apiCall";
 import { classifyData } from "Main";
 import { classifyDataInRes } from "./AlleyCard";
 import RestaurantItem from "./RestaurantItem";
+import Line from "./Line";
 
 //style
 const RestaurantListWrapper = styled.div``;
@@ -12,36 +13,13 @@ const RestaurantListWrapper = styled.div``;
 const TitleBox = styled.div``;
 
 const LocationName = styled.p`
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   margin: 0;
+  padding  :0.2rem 0;
 `;
 const AlleyName = styled.p`
-  font-size: 1.5rem;
-  margin: 0;
-`;
-
-const RestaurantBox = styled.div``;
-const RestaurantName = styled.p`
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-decoration: underline;
-`;
-const MenuBox = styled.div``;
-const Menu = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 3rem;
-
-  &:hover {
-    background-color: #ececec;
-  }
-`;
-const MenuName = styled.p`
-  margin: 0;
-`;
-const Cost = styled.p`
-  margin: 0;
-  white-space: nowrap;
+  font-size: 1.8rem;
+  margin: 1rem 0;
 `;
 
 //inteface
@@ -105,9 +83,6 @@ const RestaurantList = () => {
     ];
   });
 
-  // console.log("params", params);
-  // console.log("location.state : ", location.state);
-
   useEffect(() => {
     if (!location.state) {
       console.log("데이터가 없습니다. 데이터를 받아옵니다.");
@@ -124,7 +99,6 @@ const RestaurantList = () => {
         })
         .then((res4 : IRestaurant[]) => {
           setRestaurantList(res4);
-          console.log("88888", res4);
           setIsLoading(false);
         });
     } else {
@@ -145,6 +119,7 @@ const RestaurantList = () => {
             <LocationName>{params.location}</LocationName>
             <AlleyName>{params.alley}</AlleyName>
           </TitleBox>
+          <Line lineNumber={2} />
       
           {restaurantList.map((restaurant, index) => {
            

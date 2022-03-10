@@ -60,7 +60,6 @@ const RestaurantItem = ({ restaurantName, menu }: IRestaurantItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const clickHandler = useCallback(() => {
-    console.log("click");
     setIsOpen((bool) => {
       return !bool;
     });
