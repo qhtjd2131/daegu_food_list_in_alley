@@ -25,8 +25,9 @@ const RestaurantName = styled.p`
 const MenuBox = styled.div<{ isOpen: boolean }>`
   background-color: white;
   overflow: hidden;
+  transition: ${(props) => (props.isOpen ? "1.2s" : "0.2s")};
   max-height: ${(props) => (props.isOpen ? "200rem" : "0rem")};
-  transition: 1.2s ;
+  
 `;
 
 const Menu = styled.div`

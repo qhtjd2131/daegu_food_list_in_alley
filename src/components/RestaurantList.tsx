@@ -47,13 +47,18 @@ function classifyDataInAlley(
   alleyName: string
 ): Promise<IRestaurant[]> {
   return new Promise((resolve, reject) => {
-    const arrayData: IRestaurant[] = [];
-    Object.keys(data).forEach((restaurantIndex) => {
-      arrayData.push(data[restaurantIndex]);
-    });
-    const temp = arrayData.filter((restaurantInfo: any) => {
-      return restaurantInfo.alleyName === alleyName;
-    });
+    // const arrayData: IRestaurant[] = [];
+    const temp : IRestaurant[] = Object.values(data).filter((restaurantIndfo)=>{
+      if(restaurantIndfo.alleyName === alleyName){
+        return restaurantIndfo;
+      } 
+    })
+    // Object.keys(data).forEach((restaurantIndex) => {
+    //   arrayData.push(data[restaurantIndex]);
+    // });
+    // const temp = arrayData.filter((restaurantInfo: any) => {
+    //   return restaurantInfo.alleyName === alleyName;
+    // });
     resolve(temp);
   });
 }
@@ -84,6 +89,8 @@ const RestaurantList = () => {
   });
 
   useEffect(() => {
+    let startTime:any = new Date();
+    let endTime:any;
     if (!location.state) {
       console.log("데이터가 없습니다. 데이터를 받아옵니다.");
       getFoodInfoInAlley()
@@ -95,9 +102,12 @@ const RestaurantList = () => {
           return classifyDataInRes(res2[params.location]);
         })
         .then((res3: IRestaurantListInAlley) => {
+          startTime = new Date();
           return classifyDataInAlley(res3, params.alley);
         })
         .then((res4 : IRestaurant[]) => {
+          endTime=new Date();
+          console.log("데이터 분류3 경과시간 : ", endTime - startTime);
           setRestaurantList(res4);
           setIsLoading(false);
         });
@@ -105,6 +115,9 @@ const RestaurantList = () => {
       classifyDataInAlley(location.state, params.alley).then((res4) => {
         setRestaurantList(res4);
         setIsLoading(false);
+        endTime = new Date();
+        console.log("데이터 분류3 경과시간 : ", endTime - startTime);
+
       });
     }
   }, [location.state, params.alley, params.location]);

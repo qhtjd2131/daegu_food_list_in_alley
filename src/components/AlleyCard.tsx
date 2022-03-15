@@ -34,23 +34,19 @@ export const classifyDataInRes = (
 ): Promise<IRestaurantListInAlley> => {
   return new Promise((resolve, reject) => {
     let temp: any = {};
-
     restaurantListInAlley.forEach((value: any) => {
       const restaurantIndex = value["업소 식별번호"];
       if (temp[restaurantIndex]) {
-        temp[restaurantIndex].menu = [
-          ...temp[restaurantIndex].menu,
-          {
-            menuName: value.메뉴명,
-            cost: value["가격(원)"],
-          },
-        ];
+
+        temp[restaurantIndex].menu.push({
+          menuName: value.메뉴명,
+          cost: value["가격(원)"],
+        })
       } else {
         temp[restaurantIndex] = {
           restaurantName: value.업소명,
           alleyName: value.골목명,
           location: value.시군구,
-
           menu: [
             {
               menuName: value.메뉴명,
@@ -71,9 +67,14 @@ const AlleyCard = ({
   const [restaurantList, setRestaurantList] = useState<any>();
   let navigate = useNavigate();
 
+  
   useEffect(() => {
+    let startTime  : any= new Date();
+    let endTime : any;
     classifyDataInRes(restaurantListInAlley).then((data) => {
       setRestaurantList(data);
+      endTime = new Date();
+      console.log("데이터 분류2 경과시간 : ", endTime - startTime);
     });
   }, [restaurantListInAlley]);
 
