@@ -92,7 +92,7 @@ const RestaurantList = () => {
     let startTime:any = new Date();
     let endTime:any;
     if (!location.state) {
-      console.log("데이터가 없습니다. 데이터를 받아옵니다.");
+      // console.log("데이터가 없습니다. 데이터를 받아옵니다.");
       getFoodInfoInAlley()
         .then((res) => {
           const merged_data = [...res[0], ...res[1], ...res[2], ...res[3]];
@@ -107,7 +107,7 @@ const RestaurantList = () => {
         })
         .then((res4 : IRestaurant[]) => {
           endTime=new Date();
-          console.log("데이터 분류3 경과시간 : ", endTime - startTime);
+          // console.log("데이터 분류3 경과시간 : ", endTime - startTime);
           setRestaurantList(res4);
           setIsLoading(false);
         });
@@ -116,7 +116,7 @@ const RestaurantList = () => {
         setRestaurantList(res4);
         setIsLoading(false);
         endTime = new Date();
-        console.log("데이터 분류3 경과시간 : ", endTime - startTime);
+        // console.log("데이터 분류3 경과시간 : ", endTime - startTime);
 
       });
     }

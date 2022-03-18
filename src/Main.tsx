@@ -20,7 +20,7 @@ const MainWrapper = styled.section``;
 
 export function classifyData(data: IFoodInfo[]): Promise<IFoodInfos> {
   
-  console.log("데이터 분류...");
+  // console.log("데이터 분류...");
   return new Promise((resolve, reject) => {
     let temp_arr : IFoodInfos = {
       중구: [],
@@ -82,12 +82,12 @@ const Main = () => {
     getFoodInfoInAlley().then((res) => {
       const merged_data = [...res[0], ...res[1], ...res[2], ...res[3]];
       endTime = new Date();
-      console.log("데이터 fetch 경과시간(ms) :", endTime - startTime);
+      // console.log("데이터 fetch 경과시간(ms) :", endTime - startTime);
 
       startTime = new Date();
       classifyData(merged_data).then((temp: IFoodInfos) => {
         endTime = new Date();
-        console.log("데이터 분류 경과시간(ms) :", endTime - startTime);
+        // console.log("데이터 분류 경과시간(ms) :", endTime - startTime);
 
         setRestaurantList(temp);
         //loading state 처리

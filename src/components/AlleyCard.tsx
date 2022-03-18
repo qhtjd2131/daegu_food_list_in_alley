@@ -74,7 +74,7 @@ const AlleyCard = ({
     classifyDataInRes(restaurantListInAlley).then((data) => {
       setRestaurantList(data);
       endTime = new Date();
-      console.log("데이터 분류2 경과시간 : ", endTime - startTime);
+      // console.log("데이터 분류2 경과시간 : ", endTime - startTime);
     });
   }, [restaurantListInAlley]);
 
